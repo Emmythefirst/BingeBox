@@ -1,0 +1,20 @@
+# Ignore environment files (any depth and variations)
+# ignore plain .env and any dot-env variants like .env.local or .env.production
+.env
+*.env
+.env.*
+backend/.env
+frontend/.env
+
+# Node modules
+/node_modules
+
+# Build outputs
+/backend/dist
+/frontend/dist
+
+# Ignore media and large files
+media/
+*.mp4
+*.mov
+*.mkv

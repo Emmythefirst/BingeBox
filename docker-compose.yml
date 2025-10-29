@@ -1,0 +1,41 @@
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: BingeBox-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - MEDIA_PATH=/app/media
+      - DB_PATH=/app/data/BingeBox.db
+      - PEER_ID=docker_peer
+    volumes:
+      - ./data:/app/data
+      - ./media:/app/media
+    restart: unless-stopped
+    networks:
+      - BingeBox-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: BingeBox-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:3000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - BingeBox-network
+
+networks:
+  BingeBox-network:
+    driver: bridge

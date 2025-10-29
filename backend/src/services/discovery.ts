@@ -9,13 +9,13 @@ export function startPeerDiscovery(db: any, io: any) {
 
   const bonjourInstance = new bonjour();
 
-  // make the advertised service name more likely to be unique on local networks
+  // make the advertised service name unique on local networks
   const serviceName = `${hostname}-${peerId.slice(0, 8)}`;
 
   try {
     bonjourInstance.publish({
       name: serviceName,
-      type: 'cipherstream',
+      type: 'BingeBox',
       port: PORT,
       txt: {
         peerId,
@@ -29,7 +29,7 @@ export function startPeerDiscovery(db: any, io: any) {
     console.warn('⚠️  Failed to publish bonjour service:', err && err.message ? err.message : err);
   }
 
-  const browser = bonjourInstance.find({ type: 'cipherstream' });
+  const browser = bonjourInstance.find({ type: 'BingeBox' });
 
   browser.on('up', (service: any) => {
     if (service.txt?.peerId === peerId) return;

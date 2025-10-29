@@ -9,8 +9,8 @@
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deduplicate": "ts-node scripts/deduplicate-movies.ts",
-  "rescan": "ts-node scripts/rescan-missing-metadata.ts",
-  "scan-now": "ts-node scripts/scan-media-now.ts"
+    "rescan": "ts-node scripts/rescan-missing-metadata.ts",
+    "scan-now": "ts-node scripts/scan-media-now.ts"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "react-router-dom": "^7.9.4",
     "socket.io": "^4.8.1",
     "uuid": "^13.0.0"
   },
@@ -30,6 +32,7 @@
     "@types/better-sqlite3": "^7.6.13",
     "@types/express": "^5.0.3",
     "@types/node": "^24.7.2",
+    "@types/react-router-dom": "^5.3.3",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

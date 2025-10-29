@@ -18,3 +18,21 @@ media/
 *.mp4
 *.mov
 *.mkv
+
+# Database
+data/
+*.db
+
+# Build outputs
+backend/dist/
+frontend/dist/
+
+# Docker
+.dockerignore
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

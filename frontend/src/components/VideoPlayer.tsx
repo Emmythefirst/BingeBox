@@ -76,6 +76,7 @@ export default function VideoPlayer({ movieId, peerId, partyId, socket }: VideoP
             })
         }
     }
+    console.log("🎥 videoUrl:", videoUrl);
 
     return (
         <div className="player-container">

@@ -21,10 +21,13 @@ export async function scanMediaFolder(db: any) {
 
       const title = path.basename(file, ext).replace(/[._-]/g, ' ').trim();
 
+      const filename = path.basename(file);
+
+
       // Check if already in DB
-      const existing = db.prepare('SELECT id FROM movies WHERE filename = ?').get(file);
+      const existing = db.prepare('SELECT id FROM movies WHERE filename = ?').get(filename);
       if (existing) {
-        console.log(`Skipping ${file} (already in database)`)
+        console.log(`Skipping ${filename} (already in database)`)
         continue;
       }
 
@@ -49,7 +52,7 @@ export async function scanMediaFolder(db: any) {
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
       ).run(
         id,
-        file,
+        filename,
         tmdbResult.title,
         tmdbResult.id,
         tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : null,
@@ -61,7 +64,7 @@ export async function scanMediaFolder(db: any) {
       // cache metadata for offline use
       await cacheMovieMetadata(db, {
         id,
-        filename: file,
+        filename,
         title: tmdbResult.title,
         description: tmdbResult.overview,
         poster: tmdbResult.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbResult.poster_path}` : null,

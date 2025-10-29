@@ -2,8 +2,11 @@ import express from 'express';
 import http from 'http';
 import { Server as IOServer } from 'socket.io';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import { registerStreamRoutes } from './routes/stream';
 
 dotenv.config();
+
 
 const app = express();
 const server = http.createServer(app);
@@ -13,9 +16,16 @@ const io = new IOServer(server, {
   },
 });
 
+app.use(cors());
+app.use(express.json())
+
+
 app.get('/', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+app.use('/api', registerStreamRoutes);
+;
 
 io.on('connection', (socket) => {
   console.log('socket connected', socket.id);

@@ -5,19 +5,24 @@ import fs from 'fs';
 
 
 export function initDB() {
-  const dbDir = path.resolve('./data');
-  const dbPath = path.join(dbDir, './cipherstream.db');
+  const dbPath = process.env.DB_PATH || './data/BingeBox.db';
+  const resolvedPath = path.resolve(dbPath);
+  const dbDir = path.dirname(resolvedPath);
 
-   if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+   if (!fs.existsSync(dbDir)) {
+    fs.mkdirSync(dbDir, { recursive: true });
+    console.log(`✅ Created database directory: ${dbDir}`);
+   }
 
+   console.log(`📁 Database path: ${resolvedPath}`);
   const db = new Database(dbPath);
   db.pragma('foreign_keys = ON');
 
-
+// Movies table
   db.prepare(`
     CREATE TABLE IF NOT EXISTS movies (
       id TEXT PRIMARY KEY,
-      filename TEXT NOT NULL,
+      filename TEXT NOT NULL UNIQUE,
       title TEXT,
       tmdbId INTEGER,
       poster TEXT,
@@ -28,6 +33,7 @@ export function initDB() {
     );
   `).run();
 
+  // Watch Parties table
   db.prepare(`
     CREATE TABLE IF NOT EXISTS watch_parties (
       id TEXT PRIMARY KEY,
@@ -40,6 +46,7 @@ export function initDB() {
     );
   `).run()
 
+  // Peers table
   db.prepare(`
     CREATE TABLE IF NOT EXISTS peers (
       id TEXT PRIMARY KEY,
@@ -51,6 +58,7 @@ export function initDB() {
     );
     `).run();
 
+    // Offline Cache table
     db.prepare(`
     CREATE TABLE IF NOT EXISTS offline_cache (
       movieId TEXT PRIMARY KEY,
@@ -60,6 +68,7 @@ export function initDB() {
     );
   `).run();
 
+  console.log('✅ Database initialized successfully');
   return db as any;
 }
 

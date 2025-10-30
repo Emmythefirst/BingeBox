@@ -41,7 +41,7 @@ async function start() {
     })
   );
   app.use(express.json());
-  app.use(express.static(path.join(__dirname, 'frontend/dist')));
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
   // ✅ API routes
   app.use('/api', moviesRoutes);
